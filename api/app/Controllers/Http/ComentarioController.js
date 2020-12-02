@@ -4,13 +4,15 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Comentario = use("App/Models/Comentario")
+
 /**
- * Resourceful controller for interacting with comentarios
+ * Resourceful controller for interacting with posts
  */
 class ComentarioController {
   /**
-   * Show a list of all comentarios.
-   * GET comentarios
+   * Show a list of all posts.
+   * GET posts
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -18,34 +20,28 @@ class ComentarioController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const Comentarios = await Comentario.all();
+
+    return Comentarios;
+
   }
 
   /**
-   * Render a form to be used for creating a new comentario.
-   * GET comentarios/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
-  /**
-   * Create/save a new comentario.
-   * POST comentarios
+   * Create/save a new post.
+   * POST posts
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const Data = request.only(["comentario", "id_posts"]);
+    const Comentarios = await Comentario.create(Data);
+    return Comentarios;
   }
-
   /**
-   * Display a single comentario.
-   * GET comentarios/:id
+   * Display a single post.
+   * GET posts/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -53,40 +49,22 @@ class ComentarioController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const Comentarios = await Comentario.findOrFail(params.id);
+    return Comentario;
   }
 
   /**
-   * Render a form to update an existing comentario.
-   * GET comentarios/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update comentario details.
-   * PUT or PATCH comentarios/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
-
-  /**
-   * Delete a comentario with id.
-   * DELETE comentarios/:id
+   * Delete a post with id.
+   * DELETE posts/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const Comentarios = await Comentario.findOrFail(params.id);
+    await Comentarios.delete();
+    return Comentarios;
   }
 }
 

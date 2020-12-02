@@ -1,5 +1,7 @@
 'use strict'
 
+const PostController = require('../app/Controllers/Http/PostController')
+
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -16,6 +18,8 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
+Route.post('/registro', 'AuthController.register')
+Route.post('/authentication', 'AuthController.authenticate')
+
+Route.resource('posts', "PostController")
+Route.resource('comentarios', "ComentarioController")
